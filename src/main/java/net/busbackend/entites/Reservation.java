@@ -5,14 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name="bus_reservation")
 public class Reservation {
-    private String reservationId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reservationId;
+
+    @OneToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @OneToOne
+    @JoinColumn(name = "bus_schedule_id")
     private BusSchedule busSchedule;
+
     private Long  timeStamp;
     private String departureDate;
     private Integer totalSeatBooked;

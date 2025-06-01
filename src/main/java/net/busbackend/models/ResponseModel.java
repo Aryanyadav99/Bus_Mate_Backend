@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseModel<T> {
-    //generic t refer it accpt any type of object either bus route and other
+    //generic t refer to accept any type of object either bus route and other
     private int statusCode;
     private String message;
     private T response;

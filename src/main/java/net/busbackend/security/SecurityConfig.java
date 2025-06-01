@@ -24,21 +24,30 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
     @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
-        http.csrf().disable()
-                .authorizeHttpRequests()
-                .antMatchers(HttpMethod.GET)
-                .permitAll()
-                .antMatchers("/api/auth/**")
-                .permitAll()
-                .antMatchers(HttpMethod.POST,"/api/bus/add","/api/schedule/add","api/route/add")
-                .authenticated()
-                .antMatchers(HttpMethod.POST,"/api/reservation/add")
-                .permitAll()
-                .and()
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtEntryPoint))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeHttpRequests(auth -> auth
+                        // Public endpoints
+                        .antMatchers(HttpMethod.GET).permitAll()  // Allow all GET requests
+                        .antMatchers("/api/auth/**").permitAll()  // Allow all auth endpoints
+                        .antMatchers(HttpMethod.POST, "/api/reservation/add").permitAll()
+
+                        // Authenticated endpoints
+                        .antMatchers(HttpMethod.POST, "/api/bus/add", "/api/schedule/add", "/api/route/add")
+                        .authenticated()
+
+                        // All other requests
+                        .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(jwtEntryPoint)
+                )
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
     @Bean

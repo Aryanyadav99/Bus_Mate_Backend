@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .antMatchers(HttpMethod.GET).permitAll()  // Allow all GET requests
-                        .antMatchers("/api/auth/**").permitAll()  // Allow all auth endpoints
+                        .antMatchers("/api/auth/**","/health").permitAll()  // Allow all auth endpoints
                         .antMatchers(HttpMethod.POST, "/api/reservation/add").permitAll()
 
                         // Authenticated endpoints

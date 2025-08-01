@@ -1,12 +1,10 @@
 package net.busbackend.security;
-
 import net.busbackend.services.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,7 +29,7 @@ public class SecurityConfig {
                         // Public endpoints
                         .antMatchers(HttpMethod.GET).permitAll()  // Allow all GET requests
                         .antMatchers("/api/auth/**","/health").permitAll()  // Allow all auth endpoints
-                        .antMatchers(HttpMethod.POST, "/api/reservation/add").authenticated()
+                        .antMatchers(HttpMethod.POST, "/api/reservation/add").permitAll()
 
                         // Authenticated endpoints
                         .antMatchers(HttpMethod.POST, "/api/bus/add", "/api/schedule/add", "/api/route/add")

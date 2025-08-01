@@ -48,7 +48,5 @@ public class AuthController
                 expiration
         );
         return ResponseEntity.ok(authResponseModel);
-
-
     }
 }

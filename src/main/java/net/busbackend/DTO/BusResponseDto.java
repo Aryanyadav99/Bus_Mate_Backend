@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BusResponseDto {
-    private  String busId;
+    private Long busId;
     private String busName;
     private String busType;
     private int totalSeats;

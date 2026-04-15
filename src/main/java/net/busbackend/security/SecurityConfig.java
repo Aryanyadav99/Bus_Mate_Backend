@@ -36,7 +36,7 @@ public class SecurityConfig {
                         // allow preflight requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // public endpoints
-                        .requestMatchers("/ws-chat/**",
+                        .requestMatchers(
                                 "/api/users/forgot-password",
                                 "/api/users/reset-password",
                                 "/api/users/resend-otp",

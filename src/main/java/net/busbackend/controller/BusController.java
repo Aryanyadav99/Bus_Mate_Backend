@@ -30,10 +30,12 @@ public class BusController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Bus>> getAllBus(){
-        //we can only use list bus there,but that look more professional means we are returning the response
-        return ResponseEntity.ok(busService.getAllBus());
+    @GetMapping
+    public ResponseEntity<List<BusResponseDto>> getAllBus() {
+
+        List<BusResponseDto> buses = busService.getAllBus();
+
+        return ResponseEntity.ok(buses);
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BusServiceImpl implements BusService {
@@ -27,8 +28,11 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public List<Bus> getAllBus() {
-        return busRepository.findAll();
+    public List<BusResponseDto> getAllBus() {
+        List<Bus> buses = busRepository.findAll();
+        return buses.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
     private Bus mapToEntity(BusRequestDto dto) {

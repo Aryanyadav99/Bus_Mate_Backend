@@ -1,6 +1,6 @@
 package net.busbackend.entites;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(

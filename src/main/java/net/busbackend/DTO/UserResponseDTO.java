@@ -15,5 +15,6 @@ public class UserResponseDTO {
     private String email;
     @JsonProperty("isAdmin")
     private boolean isAdmin;
-
+    @JsonProperty("isVerified")
+    private boolean isVerified;
 }

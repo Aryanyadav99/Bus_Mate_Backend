@@ -35,6 +35,36 @@ public class BusServiceImpl implements BusService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public BusResponseDto getBusById(Long id) {
+        Bus bus = busRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bus not found"));
+
+        return mapToDto(bus);
+    }
+
+    @Override
+    public BusResponseDto updateBus(Long id, BusRequestDto dto) {
+        Bus bus = busRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bus not found"));
+        bus.setBusName(dto.getBusName());
+        bus.setBusType(dto.getBusType());
+        bus.setTotalSeat(dto.getTotalSeats());
+        bus.setBusNumber(dto.getBusNumber());
+
+        Bus updatedBus = busRepository.save(bus);
+
+        return mapToDto(updatedBus);
+    }
+
+    @Override
+    public void deleteBus(Long id) {
+        if (!busRepository.existsById(id)) {
+            throw new RuntimeException("Bus not found");
+        }
+        busRepository.deleteById(id);
+    }
+
     private Bus mapToEntity(BusRequestDto dto) {
         Bus bus = new Bus();
         bus.setBusName(dto.getBusName());

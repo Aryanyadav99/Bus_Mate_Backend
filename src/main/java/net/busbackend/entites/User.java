@@ -43,6 +43,8 @@ public class User {
     @Column(name = "is_admin", nullable = false, columnDefinition = "boolean default false")
     private boolean isAdmin = false;
 
+    @Column(name = "is_verified", nullable = false, columnDefinition = "boolean default false")
+    private boolean isVerified = false;
 
     private LocalDateTime updatedAt;
 

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.persistence.Access;
+import jakarta.persistence.Access;
 import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice

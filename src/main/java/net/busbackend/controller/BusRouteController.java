@@ -56,12 +56,6 @@ public class BusRouteController {
         return ResponseEntity.ok(busRouteService.getAllBusRoutes());
     }
 
-    @GetMapping("/{routeName}")
-    public ResponseEntity<RouteResponseDTO> getRouteByRouteName(@PathVariable(name="routeName") String routeName){
-        validateUser();
-        return ResponseEntity.ok(busRouteService.getRouteByRouteName(routeName));
-    }
-
     @GetMapping("/query")
     public ResponseEntity<RouteResponseDTO> getRouteByCityFromAndCityTo(
             @RequestParam String cityFrom,

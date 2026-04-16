@@ -36,14 +36,6 @@ public class BusRouteServiceImpl implements BusRouteService {
         return routes.stream().map(this::mapToDto).toList();
     }
 
-    @Override
-    public RouteResponseDTO getRouteByRouteName(String routeName) {
-        Optional<BusRoute>route= busRouteRepository.findByRouteName(routeName);
-        if(route.get()==null){
-            throw new ReservationApiException(HttpStatus.BAD_REQUEST,"No Such Route Found");
-        }
-        return mapToDto(route.get());
-    }
 
     @Override
     public RouteResponseDTO getRouteByCityFromAndCityTo(String cityFrom, String cityTo) {

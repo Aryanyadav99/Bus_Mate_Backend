@@ -12,11 +12,13 @@ import net.busbackend.repos.BusRepository;
 import net.busbackend.repos.BusRouteRepository;
 import net.busbackend.repos.BusScheduleRepository;
 import net.busbackend.services.BusScheduleService;
+import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BusScheduleServiceImpl implements BusScheduleService {
@@ -61,6 +63,25 @@ public class BusScheduleServiceImpl implements BusScheduleService {
         return mapToDto(schedule);
     }
 
+    @Override
+    public List<BusScheduleResponseDTO> getAllBusSchedules() {
+        List<BusSchedule> schedules= busScheduleRepository.findAll();
+        return schedules.stream().map(this::mapToDto).toList();
+    }
+
+    @Override
+    public List<BusScheduleResponseDTO> getSchedulesByRoute(String cityFrom, String cityTo) {
+        Optional<BusRoute>route=busRouteRepository.findByCityFromAndCityTo(cityFrom,cityTo);
+        if(route.isEmpty()) {
+            throw new ReservationApiException(HttpStatus.NOT_FOUND, "Route Not Found");
+        }
+        BusRoute currRoute=route.get();
+        Optional<List<BusSchedule>> schedules=busScheduleRepository.findByBusRoute(currRoute);
+        if(schedules.isEmpty()) {
+            throw new ReservationApiException(HttpStatus.NOT_FOUND, "No Schedules Found For This Route");
+        }
+        return schedules.get().stream().map(this::mapToDto).toList();
+    }
 
     private  BusScheduleResponseDTO mapToDto(BusSchedule schedule) {
         return new BusScheduleResponseDTO(

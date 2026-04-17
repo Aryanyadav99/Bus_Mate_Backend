@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BusScheduleService  {
     BusScheduleResponseDTO addSchedule(BusScheduleRequestDTO busScheduleRequestDTO);
-    List<BusSchedule> getAllBusSchedules();
-    List<BusSchedule>getSchedulesByRoute(String routeName);
+    List<BusScheduleResponseDTO> getAllBusSchedules();
 
+    List<BusScheduleResponseDTO> getSchedulesByRoute(String cityFrom, String cityTo);
 }

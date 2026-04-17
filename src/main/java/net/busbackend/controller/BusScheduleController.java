@@ -54,6 +54,7 @@ public class BusScheduleController {
 
     @GetMapping("/all")
     public ResponseEntity<List<BusScheduleResponseDTO>> getAllSchedules(){
+        validateAdmin();
         return ResponseEntity.ok(busScheduleService.getAllBusSchedules());
     }
     @GetMapping("/{query}")

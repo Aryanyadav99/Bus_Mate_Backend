@@ -62,7 +62,7 @@ public class BusRouteController {
             @RequestParam String cityTo
 
     ){
-        validateUser();
+        validateAdmin();
         return ResponseEntity.ok(busRouteService.getRouteByCityFromAndCityTo(cityFrom,cityTo));
     }
 

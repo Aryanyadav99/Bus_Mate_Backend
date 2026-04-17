@@ -1,7 +1,15 @@
 package net.busbackend.entites;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(
         name = "seat",
@@ -12,6 +20,7 @@ import jakarta.persistence.*;
                 )
         }
 )
+
 public class Seat {
 
     @Id

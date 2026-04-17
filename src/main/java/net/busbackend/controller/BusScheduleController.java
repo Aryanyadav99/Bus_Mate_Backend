@@ -1,5 +1,7 @@
 package net.busbackend.controller;
 
+import net.busbackend.DTO.BusScheduleRequestDTO;
+import net.busbackend.DTO.BusScheduleResponseDTO;
 import net.busbackend.DTO.UserResponseDTO;
 import net.busbackend.entites.BusSchedule;
 import net.busbackend.models.ReservationApiException;
@@ -23,6 +25,7 @@ public class BusScheduleController {
     @Autowired
     private SecurityUtil securityUtil;
 
+
     private void validateAdmin() {
         UserResponseDTO currentUser = securityUtil.getCurrentUserDto();
 
@@ -42,18 +45,20 @@ public class BusScheduleController {
         }
     }
     @PostMapping("/add")
-    public ResponseModel<BusSchedule> addBusSchedule(
-            @RequestBody BusSchedule busSchedule){
-        final BusSchedule schedule=busScheduleService.addSchedule(busSchedule);
-        return new ResponseModel<>(HttpStatus.OK.value(),"Schedule Saved" , schedule);
+    public ResponseModel<BusScheduleResponseDTO> addBusSchedule(
+            @RequestBody BusScheduleRequestDTO busScheduleRequestDTO){
+        validateAdmin();
+        final BusScheduleResponseDTO scheduleDto=busScheduleService.addSchedule(busScheduleRequestDTO);
+        return new ResponseModel<>(HttpStatus.OK.value(),"Schedule Saved" , scheduleDto);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<BusSchedule>> getAllSchedules(){
+    public ResponseEntity<List<BusScheduleResponseDTO>> getAllSchedules(){
         return ResponseEntity.ok(busScheduleService.getAllBusSchedules());
     }
-    @GetMapping("/{routeName}")
-    public ResponseEntity<List<BusSchedule>> getBusScheduleByRouteName(@PathVariable(name="routeName") String routeName){
-        return ResponseEntity.ok(busScheduleService.getSchedulesByRoute(routeName));
+    @GetMapping("/{query}")
+    public ResponseEntity<List<BusScheduleResponseDTO>> getBusScheduleByRoute(@RequestParam String cityFrom,
+                                                                                  @RequestParam String cityTo){
+        return ResponseEntity.ok(busScheduleService.getSchedulesByRoute(cityFrom,cityTo));
     }
 }

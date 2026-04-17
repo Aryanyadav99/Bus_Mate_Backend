@@ -1,11 +1,14 @@
 package net.busbackend.DTO;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BusScheduleResponseDTO {
     private Long scheduleId;
 

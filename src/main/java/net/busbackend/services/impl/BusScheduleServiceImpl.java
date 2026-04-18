@@ -7,16 +7,19 @@ import net.busbackend.DTO.RouteResponseDTO;
 import net.busbackend.entites.Bus;
 import net.busbackend.entites.BusRoute;
 import net.busbackend.entites.BusSchedule;
+import net.busbackend.entites.Seat;
 import net.busbackend.models.ReservationApiException;
 import net.busbackend.repos.BusRepository;
 import net.busbackend.repos.BusRouteRepository;
 import net.busbackend.repos.BusScheduleRepository;
+import net.busbackend.repos.SeatRepository;
 import net.busbackend.services.BusScheduleService;
 import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +34,8 @@ public class BusScheduleServiceImpl implements BusScheduleService {
     private  BusRouteRepository routeRepository;
     @Autowired
     private BusRouteRepository busRouteRepository;
-
+    @Autowired
+    private SeatRepository seatRepository;
 
     @Override
     public BusScheduleResponseDTO addSchedule(BusScheduleRequestDTO busScheduleRequestDTO) throws  ReservationApiException {
@@ -60,6 +64,18 @@ public class BusScheduleServiceImpl implements BusScheduleService {
         schedule.setDiscount(busScheduleRequestDTO.getDiscount());
         schedule.setProcessingFee(busScheduleRequestDTO.getProcessingFee());
         busScheduleRepository.save(schedule);
+
+        // now we have a schedule so we have to create seats for that schedule
+        List<Seat>seats=new ArrayList<>();
+        for(int i=1;i<=bus.getTotalSeat();i++){
+            Seat seat=new Seat();
+            seat.setSeatNumber(i);
+            seat.setSchedule(schedule);
+            seat.setIsBooked(false);
+            seats.add(seat);
+        }
+        seatRepository.saveAll(seats);
+
         return mapToDto(schedule);
     }
 

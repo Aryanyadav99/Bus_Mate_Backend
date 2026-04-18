@@ -50,7 +50,7 @@ public class BusScheduleServiceImpl implements BusScheduleService {
             throw new ReservationApiException(HttpStatus.BAD_REQUEST, "Arrival Time Must Be After Departure Time");
         }
         // check duplicate
-        if(busScheduleRepository.existsByBusAndBusRouteAndDepartureTime(bus,route,busScheduleRequestDTO.getDepartureTime())) {
+        if(busScheduleRepository.existsByBusAndBusRouteAndJourneyDateAndDepartureTime(bus,route,busScheduleRequestDTO.getJourneyDate(),busScheduleRequestDTO.getDepartureTime())) {
             throw new ReservationApiException(HttpStatus.BAD_REQUEST, "Already Exist");
         }
         // create the schedule

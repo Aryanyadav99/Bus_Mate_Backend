@@ -37,13 +37,6 @@ public class BusScheduleController {
             throw new ReservationApiException(HttpStatus.FORBIDDEN, "You are not Admin");
         }
     }
-    private void validateUser() {
-        UserResponseDTO currentUser = securityUtil.getCurrentUserDto();
-
-        if (currentUser == null) {
-            throw new ReservationApiException(HttpStatus.UNAUTHORIZED, "Login First");
-        }
-    }
     @PostMapping("/add")
     public ResponseModel<BusScheduleResponseDTO> addBusSchedule(
             @RequestBody BusScheduleRequestDTO busScheduleRequestDTO){

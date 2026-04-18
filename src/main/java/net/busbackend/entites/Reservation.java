@@ -22,18 +22,22 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservationId;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     //MANY reservations -> ONE customer
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    // MANY reservations ->  ONE schedule
-    @ManyToOne(fetch = FetchType.LAZY)
+    // MANY reservations -> ONE schedule
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "bus_schedule_id", nullable = false)
     private BusSchedule busSchedule;
 
-    // relation with seats
-    @ManyToMany
+    // MANY reservations -> MANY seats
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "reservation_seat",
             joinColumns = @JoinColumn(name = "reservation_id"),
@@ -47,10 +51,13 @@ public class Reservation {
     @Column(nullable = false)
     private Integer totalPrice;
 
-    // ENUM instead of string
+    //  ENUM (GOOD)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ReservationStatus status;
 
+    // Auto timestamp
     @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }
